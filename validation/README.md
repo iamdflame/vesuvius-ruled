@@ -73,15 +73,18 @@ confirmed to land on a predicted surface, spread across the scroll's z extent:
 docker run --rm -it -v ~/vc-work:/work \
   ghcr.io/scrollprize/villa/volume-cartographer:edge \
   vc_grow_seg_from_seed \
-    -v <path or https URL to the .zarr above> \
+    -v https://vesuvius-challenge-open-data.s3.amazonaws.com/PHercParis4/representations/predictions/surfaces/20260411134726-surface-20260413141734-surface-recto-2um-ps256-L0-th0.45.zarr \
     -t /work/out \
     -p /work/params.json \
     -s 17963 14015 27830
 ```
 
-The volume is ~81 TB at level 0, so it cannot be downloaded — pass the remote
-location and let VC3D's Zarr object cache stream it. If a URL is rejected, that
-is the first thing to ask about in Discord.
+Or just `./validation/run.sh` (optionally `run.sh X Y Z` for a different seed).
+
+`vc_grow_seg_from_seed.cpp:36` accepts `http://`, `https://` and `s3://`; the
+`s3://bucket/key` form is rewritten to an https endpoint by `RemoteUrl.cpp`.
+The volume is ~81 TB at level 0 so it cannot be downloaded — pass the remote
+location and let VC3D's Zarr object cache stream it.
 
 Output is a `tifxyz` surface in `/work/out`, which `ruled.load_tifxyz()` reads
 directly.
