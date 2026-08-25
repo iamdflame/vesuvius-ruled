@@ -8,7 +8,26 @@ closing it, and it has to be run by a human — the Vesuvius Challenge
 require that improvements come from a person actually using the tools on real
 scroll data, and explicitly exclude synthetic examples.
 
-## What you need
+## Running it in a Codespace (free, no card)
+
+The prebuilt VC3D binary needs AVX2+FMA, so any CPU older than 2013 dies with
+SIGILL (exit 132). GitHub Codespaces runs on modern Azure hardware and the free
+tier covers this comfortably.
+
+```bash
+gh auth refresh -h github.com -s codespace          # one-time, opens a browser
+gh codespace create -R iamdflame/vesuvius-ruled -m standardLinux32gb
+gh codespace ssh -- 'docker pull ghcr.io/scrollprize/villa/volume-cartographer:edge'
+gh codespace ssh -- 'bash -s' < validation/provision-remote.sh
+```
+
+The devcontainer brings up Docker-in-Docker, Python 3.12 and the `ruled`
+dependencies, and prints the CPU flags on first boot so you can confirm AVX2
+before doing anything else.
+
+Stop it when idle — `gh codespace stop` — since billing is by the core-hour.
+
+## What you need (if renting instead)
 
 - Docker (image is ~2.8 GB compressed, ~6.1 GB extracted)
 - ~15 GB free disk for image + chunk cache
