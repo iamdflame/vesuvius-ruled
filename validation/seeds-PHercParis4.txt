@@ -1,0 +1,10 @@
+# Verified seeds for PHercParis4 — each confirmed to sit on a predicted surface
+# volume: PHercParis4/representations/predictions/surfaces/20260411134726-surface-20260413141734-surface-recto-2um-ps256-L0-th0.45.zarr
+#               seed (x y z)   prediction
+   14396  17831  13988      255/255
+   15790  13590  23578      255/255
+   19629  13363  34803      255/255
+   19711  15487  46397      255/255
+   16443  17924  56609      255/255
+   17984  18699  66346      255/255
+# 6 verified seeds

@@ -44,21 +44,47 @@ Confirm the options match before going further:
 --resume         Path to a tifxyz surface to resume from
 ```
 
-Then trace from a seed. The tracer optimizes a surface against a **surface
-prediction** volume, not the raw CT — for PHerc. 1667 the released prediction is
-under `PHerc1667/representations/predictions/lasagna/`.
+### Which volume, and which seed
+
+The tracer optimizes against a **surface prediction**, not raw CT. Use
+**PHerc. Paris 4** — it is the only scroll whose released prediction has full
+levels 0–5, and its meshes are cut against the same volume id, which is what
+makes the seed coordinates verifiable:
+
+```
+PHercParis4/representations/predictions/surfaces/
+  20260411134726-surface-20260413141734-surface-recto-2um-ps256-L0-th0.45.zarr
+```
+
+Level 0 is `[75784, 32693, 32693]` (z, y, x), uint8, blosc/zstd, 256³ chunks.
+
+**Seed coordinates map 1:1 onto this volume from any Paris 4 `tifxyz` cut on
+`20260411134726` — no scaling.** Verified empirically: sampling the prediction
+at mesh points returns 255/255. The seeds in `seeds-PHercParis4.txt` were each
+confirmed to land on a predicted surface, spread across the scroll's z extent:
+
+```
+  14396  17831  13988        19711  15487  46397
+  15790  13590  23578        16443  17924  56609
+  19629  13363  34803        17984  18699  66346
+```
 
 ```bash
 docker run --rm -it -v ~/vc-work:/work \
   ghcr.io/scrollprize/villa/volume-cartographer:edge \
   vc_grow_seg_from_seed \
-    -v <path-or-url to the prediction .ome.zarr> \
+    -v <path or https URL to the .zarr above> \
     -t /work/out \
     -p /work/params.json \
-    -s <x> <y> <z>
+    -s 17963 14015 27830
 ```
 
-Output is a `tifxyz` surface in `/work/out`.
+The volume is ~81 TB at level 0, so it cannot be downloaded — pass the remote
+location and let VC3D's Zarr object cache stream it. If a URL is rejected, that
+is the first thing to ask about in Discord.
+
+Output is a `tifxyz` surface in `/work/out`, which `ruled.load_tifxyz()` reads
+directly.
 
 ## 3. Score it
 
