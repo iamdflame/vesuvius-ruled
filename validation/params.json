@@ -1,0 +1,11 @@
+{
+  "mode": "seed",
+  "use_cuda": false,
+  "thread_limit": 4,
+  "cache_size": 3000000000,
+  "cache_root": "/work/cache",
+  "step_size": 20.0,
+  "search_effort": 10,
+  "min_area_cm": 0.3,
+  "tgt_overlap_count": 20
+}
