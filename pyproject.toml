@@ -1,0 +1,6 @@
+[project]
+name = "ruled"
+version = "0.1.0"
+description = "Training-free text-structure scoring for Herculaneum scroll segments"
+requires-python = ">=3.9"
+dependencies = ["numpy", "scipy"]
