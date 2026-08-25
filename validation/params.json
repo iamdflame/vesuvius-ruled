@@ -6,6 +6,7 @@
   "cache_root": "/work/cache",
   "step_size": 20.0,
   "search_effort": 10,
-  "min_area_cm": 0.3,
-  "tgt_overlap_count": 20
+  "min_area_cm": 0.1,
+  "tgt_overlap_count": 20,
+  "voxelsize": 2.4
 }
