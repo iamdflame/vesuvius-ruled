@@ -12,8 +12,11 @@ No training, no geometry, no GPU.  Scope: needs ink predictions as input —
 raw surface texture does not carry the line grid (measured; see README).
 """
 from .surface import read_slice
+from .io import (load_render, load_tifxyz, load_zarr_slice,
+                 voxel_size_mm, find_segments)
 from .core import (score, phase_track, slip_scan, line_period,
                    stitch_score, choose_continuation, combine_with_geometry)
 __all__=["score","phase_track","slip_scan","line_period",
-         "stitch_score","choose_continuation","combine_with_geometry","read_slice"]
+         "stitch_score","choose_continuation","combine_with_geometry","read_slice",
+         "load_render","load_tifxyz","load_zarr_slice","voxel_size_mm","find_segments"]
 __version__="0.1.0"

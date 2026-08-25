@@ -42,10 +42,28 @@ falls toward chance and phase more than doubles it.
 ### Install & run
 
 ```bash
-pip install numpy scipy pillow tifffile
-python fetch_data.py          # ~160 MB from the public bucket, no credentials
-python cli.py data/PHerc1667/*_ink.jpg
+pip install numpy scipy pillow tifffile zarr
+python fetch_data.py                          # ~160 MB, public bucket, no credentials
+python cli.py data/PHerc1667/*_ink.jpg        # human-readable
+python cli.py --json data/PHerc1667/*_ink.jpg # one JSON record per input
 ```
+
+### Community formats
+
+Reads released data directly — no preprocessing step:
+
+```python
+from ruled import load_render, load_tifxyz, load_zarr_slice, find_segments
+
+img, mask = load_render("…/ink-detection/downsampled/…-ds8.jpg")
+mesh      = load_tifxyz("…/mesh/…-7.91um.tifxyz")   # xyz, mask, normal, meta
+sl, m     = load_zarr_slice(store, level=3, z=58, y0=0, y1=512, x0=0, x1=512)
+segs      = find_segments("data/PHerc1667")
+```
+
+`load_zarr_slice` accepts a local path or an https URL. Remote stores are read
+with HTTP range requests over raw chunks, so a single depth slice costs ~16 KB
+instead of the ~1.9 MB whole chunk.
 
 ```python
 from ruled import score, phase_track, choose_continuation, combine_with_geometry
