@@ -39,6 +39,17 @@ Where sheets are well separated it changes nothing and does no harm. Where they 
 measured separations down to **0.04 mm**, against papyrus 0.1–0.3 mm thick — geometry
 falls toward chance and phase more than doubles it.
 
+### Found by running this on real data
+
+[ScrollPrize/villa#1603](https://github.com/ScrollPrize/villa/issues/1603) —
+`vc_grow_seg_from_seed` traces a surface against a released surface prediction,
+completes 99 generations, and then silently discards the result. Prediction
+`metadata.json` nests the scan block under `source.metadata.scan` while
+`Volume.cpp:1083` requires it at top level, so voxel size resolves to 0,
+`area_cm2` computes as 0, and the default `min_area_cm` drops every trace after
+the work is done. Reproduction, logs and the proposed fallback are in
+[`validation/findings/`](validation/findings/).
+
 ### Install & run
 
 ```bash
